@@ -1,4 +1,4 @@
-# tori-botti
+# tori-botti 🤖
 Finds automatically new articles from Tori based on search title & sends automatically reports to emails.
 
 ### Download source
