@@ -8,7 +8,10 @@ Finds automatically new articles from Tori based on search title & sends automat
 ```npm install```
 
 ### Running
+Basic terminal mode
 ```node app```
+Run as daemon in Unix based systems (MacOS, Linux, etc.)
+```nohup node app.js >> app.log 2>&1 &```
 
 ### Configuration
 Settings.json in root contains configuration
