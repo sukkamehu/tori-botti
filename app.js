@@ -5,20 +5,20 @@ const settings = require('./settings.json');
 
 let transporter = nodemailer.createTransport(settings.email_service);
 
-let autoChecker = {
-  itemsAlerted: [], // keep list to not send report of matches twice
-  start: function(){
-    console.log(new Date(), "Toribotti started with config",settings)
-    setInterval(function(){
+let tori = {
+  itemsReported: [], // keep list to not send report of matches twice
+  autoScan: function(){
+    console.log(new Date(), "Toribotti started with config", settings)
+    setInterval(() => {
       let url = `https://www.tori.fi/${settings.region}?q=${settings.searching_for}`;
-      console.log(new Date(), "Checking for new items, url: ",url)
-      axios.get(url).then(function(response){
+      console.log(new Date(), "Checking for new items, url: ", url)
+      axios.get(url).then((response) => {
         const $ = cheerio.load(response.data, { decodeEntities: true });
         let itemsToAlert = [];
         let emailHtml = "";
-        $('#blocket > div.main > div > div > div.list_mode_thumb a').each(function(i, elm) {
+        $('#blocket > div.main > div > div > div.list_mode_thumb a').each((i, elm) => {
           if(elm.attribs.id){
-            if(!autoChecker.itemsAlerted.includes(elm.attribs.id)){
+            if(!autoChecker.itemsReported.includes(elm.attribs.id)){
               itemsToAlert.push(elm.attribs.id)
               emailHtml += `<div style='border: 1px solid;'>${cheerio.html(elm)}</div>`
             }
@@ -28,13 +28,13 @@ let autoChecker = {
           if(settings.email_service){
             autoChecker.sendMail(emailHtml, itemsToAlert);
           } else {
-            console.log(new Date(), "New items found! Id's:",itemsToAlert)
-            autoChecker.itemsAlerted = autoChecker.itemsAlerted.concat(itemsToAlert)
+            console.log(new Date(), "New items found! Id's:", itemsToAlert)
+            autoChecker.itemsReported = autoChecker.itemsReported.concat(itemsToAlert)
           }
         } else {
           console.log(new Date(), "No new items to alert")
         }
-      }).catch((e)=>{console.log(new Date(), "error to check",e)})
+      }).catch((e) => { console.log(new Date(), "error to check",e) })
     }, settings.check_interval_mins * 60 * 1000)
   },
   sendMail: function(emailHtml, itemsToAlert){
@@ -50,11 +50,10 @@ let autoChecker = {
       to: settings.report_emails,
       subject: subject,
       html: `<html><head><meta charset="UTF-8"></head><body>${emailHtml}</body></html>`
-    }).catch(function(e){console.log(new Date(), "error sending mail",e)});
+    }).then(console.log("Message sent!")).catch((e) => { console.log(new Date(), "error sending mail",e) });
 
-    console.log("Message sent!");
-    autoChecker.itemsAlerted = autoChecker.itemsAlerted.concat(itemsToAlert)
+    autoChecker.itemsReported = autoChecker.itemsReported.concat(itemsToAlert)
   }
 }
 
-autoChecker.start();
+tori.autoScan();
