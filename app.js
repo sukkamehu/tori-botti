@@ -7,15 +7,16 @@ let transporter = nodemailer.createTransport(settings.email_service);
 
 let autoChecker = {
   itemsAlerted: [], // keep list to not send report of matches twice
-  makeCheck: function(){
-    setInterval(() => {
+  start: function(){
+    console.log(new Date(), "Toribotti started with config",settings)
+    setInterval(function(){
       let url = `https://www.tori.fi/${settings.region}?q=${settings.searching_for}`;
       console.log(new Date(), "Checking for new items, url: ",url)
-      axios.get(url).then((response) => {
+      axios.get(url).then(function(response){
         const $ = cheerio.load(response.data, { decodeEntities: true });
         let itemsToAlert = [];
         let emailHtml = "";
-        $('#blocket > div.main > div > div > div.list_mode_thumb a').each((i, elm) => {
+        $('#blocket > div.main > div > div > div.list_mode_thumb a').each(function(i, elm) {
           if(elm.attribs.id){
             if(!autoChecker.itemsAlerted.includes(elm.attribs.id)){
               itemsToAlert.push(elm.attribs.id)
@@ -37,20 +38,23 @@ let autoChecker = {
     }, settings.check_interval_mins * 60 * 1000)
   },
   sendMail: function(emailHtml, itemsToAlert){
-    let from = `"ToriBotti 👻" <toribotti@tori.fi>`
+
+    let subject = `Löytyi ${itemsToAlert.length} uutta artikkelia haulla ${settings.searching_for}! 🍀🍀🍀`
+    let from = `"ToriBotti 🤖" <toribotti@tori.fi>`
     if(settings.email_service.auth.user){
-      from = `"ToriBotti 👻" <${settings.email_service.auth.user}>`; // just to prevent possible mail server errors
+      from = `"ToriBotti 🤖" <${settings.email_service.auth.user}>`
     }
 
     transporter.sendMail({
       from: from,
       to: settings.report_emails,
-      subject: `Tori🤖 löysi ${itemsToAlert.length} uutta artikkelia haulla ${settings.searching_for}!`,
+      subject: subject,
       html: `<html><head><meta charset="UTF-8"></head><body>${emailHtml}</body></html>`
-    }).then((console.log("Message sent!"))).catch((e) => {console.log(new Date(), "error sending mail",e)});
+    }).catch(function(e){console.log(new Date(), "error sending mail",e)});
 
+    console.log("Message sent!");
     autoChecker.itemsAlerted = autoChecker.itemsAlerted.concat(itemsToAlert)
   }
 }
 
-autoChecker.makeCheck();
+autoChecker.start();
