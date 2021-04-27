@@ -40,17 +40,17 @@ let autoChecker = {
 
 
 
-    let subject = `Tori🤖 löysi ${itemsToAlert.length} uutta artikkelia haulla ${settings.searching_for}!`
-    let from = `"ToriBotti 👻" <toribotti@tori.fi>`
+    let subject = `Löytyi ${itemsToAlert.length} uutta artikkelia haulla ${settings.searching_for}! 🍀🍀🍀`
+    let from = `"ToriBotti 🤖" <toribotti@tori.fi>`
     if(settings.email_service.auth.user){
-      from = `"ToriBotti 👻" <${settings.email_service.auth.user}>`
+      from = `"ToriBotti 🤖" <${settings.email_service.auth.user}>`
     }
 
     transporter.sendMail({
       from: from,
       to: settings.report_emails,
       subject: subject,
-      html: `<html><head><meta charset="UTF-8"></head><body>${emailHtml}</body></html>`
+      html: `<html><head><meta charset="UTF-8"></head><body>${emailHtml}<br /><h2>Toivottavasti löytyi!</h2></body></html>`
     }).catch(function(e){console.log(new Date(), "error sending mail",e)});
 
     console.log("Message sent!");
