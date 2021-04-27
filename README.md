@@ -2,7 +2,7 @@
 Finds automatically new articles from Tori based on search title & sends automatically reports to emails.
 
 ### Download source
-```npm install```
+```git clone https://github.com/sukkamehu/tori-botti.git```
 
 ### Installation
 ```npm install```
