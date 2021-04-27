@@ -1,5 +1,5 @@
 # tori-botti 🤖
-Finds automatically new articles from Tori.fi based on search title. Upon new listings found automatic reports to emails are sent.
+Finds automatically new listings in Tori.fi based on search title. Upon findings automatic reports to emails are sent.
 
 ### Download source
 ```git clone https://github.com/sukkamehu/tori-botti.git```
@@ -13,7 +13,7 @@ Finds automatically new articles from Tori.fi based on search title. Upon new li
 ```nohup node app.js >> app.log 2>&1 &``` to run as daemon in Unix based systems (MacOS, Linux, etc.)
 
 ### Configuration
-Settings.json in root contains configuration
+Settings.json in root contains configuration.
 ```
 {
   "searching_for": "nojatuoli",
