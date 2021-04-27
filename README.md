@@ -1,5 +1,5 @@
 # tori-botti 🤖
-Finds automatically new listings in Tori.fi based on search title. Upon findings automatic reports to emails are sent.
+Finds automatically new listings in Tori.fi based on search title. Upon findings automatic reports to email(s) is sent.
 
 ### Download source
 ```git clone https://github.com/sukkamehu/tori-botti.git```
