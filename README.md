@@ -7,6 +7,9 @@ Finds automatically new articles from Tori based on search title & sends automat
 ### Installation
 ```npm install```
 
+### Running
+```node app```
+
 ### Configuration
 Settings.json in root contains configuration
 ```
