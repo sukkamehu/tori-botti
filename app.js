@@ -49,8 +49,8 @@ let tori = {
       from: from,
       to: settings.report_emails,
       subject: subject,
-      html: `<html><head><meta charset="UTF-8"></head><body>${emailHtml}</body></html>`
-    }).then(console.log("Message sent!")).catch((e) => { console.log(new Date(), "error sending mail",e) });
+      html: `<html><head><meta charset="UTF-8"></head><body>${emailHtml}<br /><h2>Toivottavasti löytyi!</h2></body></html>`
+    }).then(console.log(new Date(),"Message sent!")).catch((e) => { console.log(new Date(), "error sending mail",e) });
 
     tori.itemsReported = tori.itemsReported.concat(itemsToAlert)
   }
