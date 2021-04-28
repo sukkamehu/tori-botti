@@ -39,18 +39,17 @@ let tori = {
   },
   sendMail: function(emailHtml, itemsToAlert){
 
-    let subject = `LΓΆytyi ${itemsToAlert.length} uutta artikkelia haulla ${settings.searching_for}! πππ`
-    let from = `"ToriBotti π" <toribotti@tori.fi>`
+    let from = `"ToriBotti 🤖" <toribotti@tori.fi>`
     if(settings.email_service.auth.user){
-      from = `"ToriBotti π" <${settings.email_service.auth.user}>`
+      from = `"ToriBotti 🤖" <${settings.email_service.auth.user}>`
     }
 
     transporter.sendMail({
       from: from,
       to: settings.report_emails,
-      subject: subject,
-      html: `<html><head><meta charset="UTF-8"></head><body>${emailHtml}<br /><h2>Toivottavasti löytyi!</h2></body></html>`
-    }).then(console.log(new Date(),"Message sent!")).catch((e) => { console.log(new Date(), "error sending mail",e) });
+      subject: `Löytyi ${itemsToAlert.length} uutta artikkelia haulla ${settings.searching_for}! 🍀🍀🍀`,
+      html: `<html><head><meta charset="UTF-8"></head><body>${emailHtml}</body></html>`
+    }).then(console.log("Message sent!")).catch((e) => { console.log(new Date(), "error sending mail",e) });
 
     tori.itemsReported = tori.itemsReported.concat(itemsToAlert)
   }
