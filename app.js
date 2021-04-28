@@ -18,7 +18,7 @@ let tori = {
         let emailHtml = "";
         $('#blocket > div.main > div > div > div.list_mode_thumb a').each((i, elm) => {
           if(elm.attribs.id){
-            if(!autoChecker.itemsReported.includes(elm.attribs.id)){
+            if(!tori.itemsReported.includes(elm.attribs.id)){
               itemsToAlert.push(elm.attribs.id)
               emailHtml += `<div style='border: 1px solid;'>${cheerio.html(elm)}</div>`
             }
@@ -26,10 +26,10 @@ let tori = {
         });
         if(itemsToAlert.length > 0){
           if(settings.email_service){
-            autoChecker.sendMail(emailHtml, itemsToAlert);
+            tori.sendMail(emailHtml, itemsToAlert);
           } else {
             console.log(new Date(), "New items found! Id's:", itemsToAlert)
-            autoChecker.itemsReported = autoChecker.itemsReported.concat(itemsToAlert)
+            tori.itemsReported = tori.itemsReported.concat(itemsToAlert)
           }
         } else {
           console.log(new Date(), "No new items to alert")
@@ -39,10 +39,10 @@ let tori = {
   },
   sendMail: function(emailHtml, itemsToAlert){
 
-    let subject = `Löytyi ${itemsToAlert.length} uutta artikkelia haulla ${settings.searching_for}! 🍀🍀🍀`
-    let from = `"ToriBotti 🤖" <toribotti@tori.fi>`
+    let subject = `LΓΆytyi ${itemsToAlert.length} uutta artikkelia haulla ${settings.searching_for}! πππ`
+    let from = `"ToriBotti π" <toribotti@tori.fi>`
     if(settings.email_service.auth.user){
-      from = `"ToriBotti 🤖" <${settings.email_service.auth.user}>`
+      from = `"ToriBotti π" <${settings.email_service.auth.user}>`
     }
 
     transporter.sendMail({
@@ -52,7 +52,7 @@ let tori = {
       html: `<html><head><meta charset="UTF-8"></head><body>${emailHtml}</body></html>`
     }).then(console.log("Message sent!")).catch((e) => { console.log(new Date(), "error sending mail",e) });
 
-    autoChecker.itemsReported = autoChecker.itemsReported.concat(itemsToAlert)
+    tori.itemsReported = tori.itemsReported.concat(itemsToAlert)
   }
 }
 
